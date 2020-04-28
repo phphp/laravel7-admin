@@ -10,12 +10,19 @@
                     </div>
                 </div>
             </div>
+
+            <el-input v-model="test" placeholder='123'></el-input>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                test: '321'
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }
