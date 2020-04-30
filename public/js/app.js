@@ -115458,22 +115458,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   saveScrollPosition: true,
   routes: [{
     name: "index",
     path: '/',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
-    }
+      return void __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/MainComponent.vue */ "./resources/js/components/admin/MainComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+    },
+    redirect: '/index',
+    // 默认显示 index 子组件
+    children: [{
+      path: '/index',
+      component: function component(resolve) {
+        return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/IndexComponent.vue */ "./resources/js/components/admin/IndexComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      }
+    }, {
+      path: '/sub',
+      component: function component(resolve) {
+        return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      }
+    }]
   }, {
-    name: "test",
-    path: '/test',
+    name: "login",
+    path: '/login',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/TestComponent.vue */ "./resources/js/components/TestComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      return void __webpack_require__.e(/*! AMD require */ 0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/LoginComponent.vue */ "./resources/js/components/LoginComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
     }
   }]
-}));
+}); // 导航守卫
+
+router.beforeEach(function (to, from, next) {
+  // next() 表示放行/跳转
+  if (to.path === '/login') return next();
+  var token = window.sessionStorage.getItem('token');
+  if (!token) return next('/login');
+  next();
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
