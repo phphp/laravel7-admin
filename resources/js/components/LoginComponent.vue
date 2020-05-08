@@ -3,8 +3,8 @@
 
         <div class="form-container">
             <el-form label-width="" :model="formData" :rules="rules" ref="formData">
-                <el-form-item label="" prop="username">
-                    <el-input v-model="formData.username" placeholder="用户">
+                <el-form-item label="" prop="name">
+                    <el-input v-model="formData.name" placeholder="用户">
                         <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
                     </el-input>
                 </el-form-item>
@@ -29,11 +29,11 @@
         data() {
             return {
                 formData: {
-                    username: '',
+                    name: '',
                     password: '',
                 },
                 rules: {
-                    username: [
+                    name: [
                         { required: true, message: '请输入用户名', trigger: 'blur' },
                         { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' },
                     ],
@@ -51,9 +51,22 @@
             login(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+
+                        axios.post('/api/v0/admin/login', this.formData)
+                            .then( (response) => {
+                                localStorage.setItem('access_token', response.data.access_token);
+                                localStorage.setItem('refresh_token', response.data.refresh_token);
+                                this.$router.push('/index')
+                            })
+                            .catch( (error) => {
+                                this.$message({
+                                    message: error.response.data.message,
+                                    type:'error'
+                                })
+                            });
+
                     } else {
-                        console.log('error submit!!');
+                        console.log('表单前端验证失败');
                         return false;
                     }
                 });

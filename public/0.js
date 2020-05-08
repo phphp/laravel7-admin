@@ -39,11 +39,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       formData: {
-        username: '',
+        name: '',
         password: ''
       },
       rules: {
-        username: [{
+        name: [{
           required: true,
           message: '请输入用户名',
           trigger: 'blur'
@@ -71,11 +71,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login(formName) {
+      var _this = this;
+
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          alert('submit!');
+          axios.post('/api/v0/admin/login', _this.formData).then(function (response) {
+            localStorage.setItem('access_token', response.data.access_token);
+            localStorage.setItem('refresh_token', response.data.refresh_token);
+
+            _this.$router.push('/index');
+          })["catch"](function (error) {
+            _this.$message({
+              message: error.response.data.message,
+              type: 'error'
+            });
+          });
         } else {
-          console.log('error submit!!');
+          console.log('表单前端验证失败');
           return false;
         }
       });
@@ -163,18 +175,18 @@ var render = function() {
           [
             _c(
               "el-form-item",
-              { attrs: { label: "", prop: "username" } },
+              { attrs: { label: "", prop: "name" } },
               [
                 _c(
                   "el-input",
                   {
                     attrs: { placeholder: "用户" },
                     model: {
-                      value: _vm.formData.username,
+                      value: _vm.formData.name,
                       callback: function($$v) {
-                        _vm.$set(_vm.formData, "username", $$v)
+                        _vm.$set(_vm.formData, "name", $$v)
                       },
-                      expression: "formData.username"
+                      expression: "formData.name"
                     }
                   },
                   [

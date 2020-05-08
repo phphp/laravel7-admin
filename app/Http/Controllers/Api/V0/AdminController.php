@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Http\Controllers\Api\V0;
+
+use Carbon\Carbon;
+use App\Models\Admin;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+class AdminController extends Controller
+{
+    use AuthenticatesUsers;
+
+    /**
+     * 重写登录
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($token = $this->attemptLogin($request)) {
+            $this->clearLoginAttempts($request);
+
+            // return $this->guard()->user();
+            // return $token;
+            return $this->makeToken($this->guard()->user());
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    // 认证用户名数据库字段名称, 同时也是前端参数字段名
+    public function username()
+    {
+        return 'name';
+    }
+
+    // 认证用到的守卫
+    protected function guard()
+    {
+        return Auth::guard('admin-api');
+    }
+
+    // 执行认证
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+        $credentials = array_add($credentials, 'active', '1'); // 添加认证 active
+        return $this->guard()->attempt($credentials);
+    }
+
+    // 创建 token
+    private function makeToken(Admin $admin)
+    {
+
+        $access_token = auth('admin-api')
+            ->claims([
+                'exp' => Carbon::now()->addDays(1)->timestamp,
+                'type' => 'access token' // 不设置这个 type 会默认使用下面定义的 refresh token
+            ])
+            ->login($admin);
+        $refresh_token = auth('admin-api')
+            ->claims([
+                'exp' => Carbon::now()->addDays(365)->timestamp,
+                'type' => 'refresh token'
+            ])
+            ->login($admin);
+        return [
+            'token_type' => 'bearer',
+            'access_token' => $access_token,
+            'access_TTL' => '1 day',
+            'refresh_token' => $refresh_token,
+            'refresh_TTL' => '365 days',
+        ];
+    }
+}

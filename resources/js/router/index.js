@@ -35,8 +35,8 @@ router.beforeEach((to, from, next) => {
     // next() 表示放行/跳转
     if (to.path === '/login') return next()
 
-    const token = window.sessionStorage.getItem('token')
-    if (!token) return next('/login')
+    const accessToken = localStorage.getItem('access_token')
+    if (!accessToken) return next('/login')
 
     next()
 })

@@ -115491,8 +115491,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 router.beforeEach(function (to, from, next) {
   // next() 表示放行/跳转
   if (to.path === '/login') return next();
-  var token = window.sessionStorage.getItem('token');
-  if (!token) return next('/login');
+  var accessToken = localStorage.getItem('access_token');
+  if (!accessToken) return next('/login');
   next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
