@@ -81,9 +81,15 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$router.push('/index');
           })["catch"](function (error) {
+            var htmlMessage = '';
+            Object.keys(error.response.data.errors).forEach(function (index) {
+              htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>';
+            });
+
             _this.$message({
-              message: error.response.data.message,
-              type: 'error'
+              dangerouslyUseHTMLString: true,
+              type: 'error',
+              message: '<ul>' + htmlMessage + '</ul>'
             });
           });
         } else {

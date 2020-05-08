@@ -59,9 +59,14 @@
                                 this.$router.push('/index')
                             })
                             .catch( (error) => {
+                                let htmlMessage = ''
+                                Object.keys(error.response.data.errors).forEach((index) => {
+                                    htmlMessage += '<li style="margin: 5px 0">'+error.response.data.errors[index]+'</li>'
+                                })
                                 this.$message({
-                                    message: error.response.data.message,
-                                    type:'error'
+                                    dangerouslyUseHTMLString: true,
+                                    type:'error',
+                                    message: '<ul>'+htmlMessage+'</ul>',
                                 })
                             });
 
