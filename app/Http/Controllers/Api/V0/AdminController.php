@@ -72,7 +72,7 @@ class AdminController extends Controller
 
         $access_token = auth('admin-api')
             ->claims([
-                'exp' => Carbon::now()->addDays(1)->timestamp,
+                'exp' => Carbon::now()->addSeconds(20)->timestamp,
                 'type' => 'access token' // 不设置这个 type 会默认使用下面定义的 refresh token
             ])
             ->login($admin);
@@ -89,5 +89,25 @@ class AdminController extends Controller
             'refresh_token' => $refresh_token,
             'refresh_TTL' => '365 days',
         ];
+    }
+
+    /**
+     * refresh token
+     */
+    function refreshToken() {
+        $rs = $this->makeToken($this->guard()->user());
+        unset($rs['refresh_token']);
+        unset($rs['refresh_TTL']);
+        return $rs;
+    }
+
+    function test(Request $request) {
+        $validatedData = $request->validate([
+            'title' => 'required|unique:posts|max:255',
+            'body' => 'required',
+        ]);
+
+        abort(403);
+        return response()->json(auth()->user());
     }
 }

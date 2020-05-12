@@ -6,7 +6,7 @@
                         index
                 </div>
             </div>
-
+    <button @click="cb">click</button>
         </div>
     </div>
 </template>
@@ -19,7 +19,24 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            axios.get('/api/v0/admin/test')
+                .then( (response) => {
+                    console.log(response.data)
+                })
+                .catch( (error) => {
+
+                });
+        },
+        methods: {
+            cb() {
+                axios.get('/api/v0/admin/test')
+                    .then( (response) => {
+                        console.log(response.data)
+                    })
+                    .catch( (error) => {
+
+                    });
+            }
         }
     }
 </script>

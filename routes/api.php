@@ -23,10 +23,23 @@ Route::group(
     [
         'prefix' => 'v0',
         'namespace' => 'Api\V0',
-        // 'middleware' => 'auth:admin-api'
     ],
     function () {
         Route::post('admin/login', 'AdminController@login');
+
+    }
+);
+
+// 需要管理登录状态
+Route::group(
+    [
+        'prefix' => 'v0',
+        'namespace' => 'Api\V0',
+        'middleware' => 'auth:admin-api'
+    ],
+    function () {
+        Route::get('admin/test', 'AdminController@test');
+        Route::get('admin/refresh-token', 'AdminController@refreshToken');
 
     }
 );
