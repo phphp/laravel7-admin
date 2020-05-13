@@ -115425,13 +115425,20 @@ axios.interceptors.response.use(function (response) {
 function (error) {
   if (error.response.status) {
     switch (error.response.status) {
-      // 401: 未登录
-      // 未登录则跳转登录页面，并携带当前页面的路径
-      // 在登录成功后返回当前页面，这一步需要在登录页操作。
       case 401:
         var response = error.response; // 如果请求是 Refresh-Token 请求, 则即便返回 401 也不会再次发送 refresh token 请求
 
         if (response.config.url == '/api/v0/admin/refresh-token') {
+          if (error.response.status == 401) {
+            app.$message({
+              type: 'error',
+              message: '登录超时, 请重新登录'
+            });
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            app.$router.push('/login');
+          }
+
           break;
         } // 尝试使用 refresh token 刷新 aceess token
 
@@ -115441,18 +115448,7 @@ function (error) {
           // 获取新的 token 并再次发送失败的请求
           localStorage.setItem('access_token', response.data.access_token);
           return axios(originalRequest);
-        })["catch"](function (error) {
-          // 如果再次发送的请求还是 401, 清空 storage 并退出
-          if (error.response.status == 401) {
-            app.$message({
-              type: 'error',
-              message: '登录超时, 请重新登录'
-            });
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-            app.$router.push('/login');
-          } // Promise.reject(error)
-
+        })["catch"](function (error) {// refresh 遇到非 401 错误, 交给外层 switch 处理
         });
         break;
 
@@ -115497,7 +115493,6 @@ function (error) {
 });
 var app = new Vue({
   el: '#app',
-  // router
   router: _router_index_js__WEBPACK_IMPORTED_MODULE_3__["default"],
   render: function render(h) {
     return h(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);

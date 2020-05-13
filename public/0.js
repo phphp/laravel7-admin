@@ -80,18 +80,7 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('refresh_token', response.data.refresh_token);
 
             _this.$router.push('/index');
-          })["catch"](function (error) {
-            var htmlMessage = '';
-            Object.keys(error.response.data.errors).forEach(function (index) {
-              htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>';
-            });
-
-            _this.$message({
-              dangerouslyUseHTMLString: true,
-              type: 'error',
-              message: '<ul>' + htmlMessage + '</ul>'
-            });
-          });
+          })["catch"](function (error) {});
         } else {
           console.log('表单前端验证失败');
           return false;

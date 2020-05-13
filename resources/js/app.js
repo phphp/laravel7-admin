@@ -77,14 +77,21 @@ axios.interceptors.response.use(
     error => {
         if (error.response.status) {
             switch (error.response.status) {
-                // 401: 未登录
-                // 未登录则跳转登录页面，并携带当前页面的路径
-                // 在登录成功后返回当前页面，这一步需要在登录页操作。
+
                 case 401:
                     let response = error.response;
 
                     // 如果请求是 Refresh-Token 请求, 则即便返回 401 也不会再次发送 refresh token 请求
                     if (response.config.url == '/api/v0/admin/refresh-token') {
+                        if (error.response.status == 401) {
+                            app.$message({
+                                type: 'error',
+                                message: '登录超时, 请重新登录',
+                            })
+                            localStorage.removeItem('access_token');
+                            localStorage.removeItem('refresh_token');
+                            app.$router.push('/login')
+                        }
                         break;
                     }
 
@@ -97,17 +104,7 @@ axios.interceptors.response.use(
                             return axios(originalRequest);
                         })
                         .catch((error) => {
-                            // 如果再次发送的请求还是 401, 清空 storage 并退出
-                            if (error.response.status == 401) {
-                                app.$message({
-                                    type: 'error',
-                                    message: '登录超时, 请重新登录',
-                                })
-                                localStorage.removeItem('access_token');
-                                localStorage.removeItem('refresh_token');
-                                app.$router.push('/login')
-                            }
-                            // Promise.reject(error)
+                            // refresh 遇到非 401 错误, 交给外层 switch 处理
                         })
                     break;
 
@@ -153,7 +150,6 @@ axios.interceptors.response.use(
 
 const app = new Vue({
     el: '#app',
-    // router
     router,
     render: h => h(App)
 });
