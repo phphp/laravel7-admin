@@ -80,7 +80,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
         // 隐藏载入动画
-        if (needLoadingRequestCount <= 0) return
         needLoadingRequestCount--
         if (needLoadingRequestCount === 0) {
             if (showLoading) loading.close();
@@ -100,7 +99,6 @@ axios.interceptors.response.use(
     // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
     // 下面列举几个常见的操作，其他需求可自行扩展
     error => {
-        if (needLoadingRequestCount <= 0) return
         needLoadingRequestCount--
         if (needLoadingRequestCount === 0) {
             if (showLoading) loading.close();
