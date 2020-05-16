@@ -115360,6 +115360,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -115392,8 +115393,25 @@ Vue.use(element_ui__WEBPACK_IMPORTED_MODULE_0___default.a);
  */
 // 请求拦截器
 
+var loading;
+var showLoading;
+var needLoadingRequestCount = 0;
 axios.interceptors.request.use(function (config) {
-  // 如果是 refresh token 请求, 则使用 refresh_token 作为 auth 头
+  // 显示载入动画
+  config.dontShowLoading === true ? showLoading = false : showLoading = true;
+
+  if (showLoading) {
+    if (needLoadingRequestCount === 0) {
+      loading = element_ui__WEBPACK_IMPORTED_MODULE_0__["Loading"].service({
+        lock: true,
+        background: 'rgba(239, 239, 239, 0.5)'
+      });
+    }
+
+    needLoadingRequestCount++;
+  } // 如果是 refresh token 请求, 则使用 refresh_token 作为 auth 头
+
+
   if (config.url == '/api/v0/admin/refresh-token') {
     var refreshToken = localStorage.getItem('refresh_token');
     refreshToken && (config.headers.Authorization = 'Bearer ' + refreshToken);
@@ -115411,8 +115429,16 @@ axios.interceptors.request.use(function (config) {
 }); // 响应拦截器
 
 axios.interceptors.response.use(function (response) {
-  // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+  // 隐藏载入动画
+  if (needLoadingRequestCount <= 0) return;
+  needLoadingRequestCount--;
+
+  if (needLoadingRequestCount === 0) {
+    if (showLoading) loading.close();
+  } // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
   // 否则的话抛出错误
+
+
   if (response.status === 200) {
     return Promise.resolve(response);
   } else {
@@ -115423,6 +115449,13 @@ axios.interceptors.response.use(function (response) {
 // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
 // 下面列举几个常见的操作，其他需求可自行扩展
 function (error) {
+  if (needLoadingRequestCount <= 0) return;
+  needLoadingRequestCount--;
+
+  if (needLoadingRequestCount === 0) {
+    if (showLoading) loading.close();
+  }
+
   if (error.response.status) {
     switch (error.response.status) {
       case 401:

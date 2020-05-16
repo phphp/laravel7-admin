@@ -173,7 +173,7 @@ var render = function() {
     [
       _c(
         "el-aside",
-        { attrs: { width: _vm.isCollapse ? "64px" : "220px" } },
+        { attrs: { width: _vm.isCollapse ? "65px" : "220px" } },
         [
           _c(
             "el-menu",

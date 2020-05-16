@@ -29,7 +29,7 @@
         },
         methods: {
             cb() {
-                axios.get('/api/v0/admin/test')
+                axios.get('/api/v0/admin/test', {'dontShowLoading': true})
                     .then( (response) => {
                         console.log(response.data)
                     })

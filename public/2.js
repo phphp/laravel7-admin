@@ -35,7 +35,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     cb: function cb() {
-      axios.get('/api/v0/admin/test').then(function (response) {
+      axios.get('/api/v0/admin/test', {
+        'dontShowLoading': true
+      }).then(function (response) {
         console.log(response.data);
       })["catch"](function (error) {});
     }

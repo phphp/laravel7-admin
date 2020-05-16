@@ -102,12 +102,14 @@ class AdminController extends Controller
     }
 
     function test(Request $request) {
-        $validatedData = $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
-        ]);
+        sleep(1);
 
-        abort(403);
+        // $validatedData = $request->validate([
+        //     'title' => 'required|unique:posts|max:255',
+        //     'body' => 'required',
+        // ]);
+
+        // abort(403);
         return response()->json(auth()->user());
     }
 }

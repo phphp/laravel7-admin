@@ -1,7 +1,7 @@
 <template>
     <el-container class="full-container">
 
-        <el-aside :width="isCollapse ? '64px' : '220px'">
+        <el-aside :width="isCollapse ? '65px' : '220px'">
             <el-menu
                 :default-openeds="[]"
                 :collapse="isCollapse"
