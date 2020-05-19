@@ -115521,6 +115521,16 @@ function (error) {
 
     return Promise.reject(error.response);
   }
+}); // title meta 修改成路由定义的 title
+
+_router_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].beforeEach(function (to, from, next) {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  } else {
+    document.title = '后台';
+  }
+
+  next();
 });
 var app = new Vue({
   el: '#app',
@@ -115605,12 +115615,18 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     children: [{
       path: '/index',
       component: function component(resolve) {
-        return void __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/IndexComponent.vue */ "./resources/js/components/admin/IndexComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/IndexComponent.vue */ "./resources/js/components/admin/IndexComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: '控制台'
       }
     }, {
       path: '/sub',
       component: function component(resolve) {
-        return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        return void __webpack_require__.e(/*! AMD require */ 4).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: 'sub'
       }
     }]
   }, {

@@ -14,11 +14,13 @@ const router = new VueRouter({
                 {
                     path: '/index',
                     component: resolve => void (require(['../components/admin/IndexComponent.vue'], resolve)),
+                    meta: { title: '控制台' }
                 },
                 {
                     path: '/sub',
                     component: resolve => void (require(['../components/admin/SubComponent.vue'], resolve)),
-                }
+                    meta: { title: 'sub' }
+                },
             ]
         },
 

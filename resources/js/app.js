@@ -177,6 +177,16 @@ axios.interceptors.response.use(
     }
 );
 
+// title meta 修改成路由定义的 title
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    } else {
+        document.title = '后台';
+    }
+    next()
+});
+
 const app = new Vue({
     el: '#app',
     router,
