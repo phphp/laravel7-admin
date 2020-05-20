@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\V0;
 use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AdminController extends Controller
@@ -72,7 +74,8 @@ class AdminController extends Controller
 
         $access_token = auth('admin-api')
             ->claims([
-                'exp' => Carbon::now()->addSeconds(20)->timestamp,
+                // 'exp' => Carbon::now()->addSeconds(20)->timestamp,
+                'exp' => Carbon::now()->addDays(1)->timestamp,
                 'type' => 'access token' // 不设置这个 type 会默认使用下面定义的 refresh token
             ])
             ->login($admin);
@@ -102,6 +105,18 @@ class AdminController extends Controller
     }
 
     function test(Request $request) {
+
+        return response()->json(auth()->user());
+        // auth()->user()->assignRole('writer');
+        // return response()->json(auth()->user()->getPermissionsViaRoles());
+
+
+
+        $role = Role::firstOrCreate(['name' => 'writer']);  // 创建角色
+        $permission = Permission::firstOrCreate(['name' => 'edit articles']);// 创建权限
+
+        $role->givePermissionTo($permission); // 添加
+
         sleep(1);
 
         // $validatedData = $request->validate([

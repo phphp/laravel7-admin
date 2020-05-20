@@ -38,7 +38,7 @@ Route::group(
         'middleware' => 'auth:admin-api'
     ],
     function () {
-        Route::get('admin/test', 'AdminController@test');
+        Route::get('admin/test', 'AdminController@test')->middleware(['role:admin']);
         Route::get('admin/refresh-token', 'AdminController@refreshToken');
 
     }

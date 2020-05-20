@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
-use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use HasRoles; // for laravel-permission authorization
 
     /**
      * The attributes that are mass assignable.
