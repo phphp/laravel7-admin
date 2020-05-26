@@ -33,13 +33,17 @@ Route::group(
 // 需要管理登录状态
 Route::group(
     [
-        'prefix' => 'v0',
+        'prefix' => 'v0/admin',
         'namespace' => 'Api\V0',
         'middleware' => 'auth:admin-api'
     ],
     function () {
-        Route::get('admin/test', 'AdminController@test')->middleware(['role:admin']);
-        Route::get('admin/refresh-token', 'AdminController@refreshToken');
+        Route::get('test', 'AdminController@test')->middleware(['role:admin']);
+        Route::get('refresh-token', 'AdminController@refreshToken');
+
+        Route::resource('admins', 'AdminController')->only([
+            'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
+        ]);
 
     }
 );

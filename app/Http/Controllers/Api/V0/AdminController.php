@@ -127,4 +127,14 @@ class AdminController extends Controller
         // abort(403);
         return response()->json(auth()->user());
     }
+
+    public function index(Request $request)
+    {
+        $request->validate([
+            'page' => 'integer|min:1',
+            'per_page' => 'integer|min:1|max:100',
+        ]);
+        $admins = Admin::paginate($request->query('per_page', 15));
+        return json($admins);
+    }
 }
