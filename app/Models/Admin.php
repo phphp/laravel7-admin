@@ -50,4 +50,9 @@ class Admin extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function getActiveAttribute($value)
+    {
+        return ($value == 1) ? true : flase;
+    }
 }

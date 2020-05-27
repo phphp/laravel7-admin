@@ -115631,7 +115631,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     }, {
       path: '/admins/create',
       component: function component(resolve) {
-        return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsCreateComponent.vue */ "./resources/js/components/admin/AdminsCreateComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        return void Promise.all(/*! AMD require */[__webpack_require__.e(6), __webpack_require__.e(3)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsCreateComponent.vue */ "./resources/js/components/admin/AdminsCreateComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
       },
       meta: {
         title: '添加管理员'

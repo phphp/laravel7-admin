@@ -59,8 +59,8 @@ __webpack_require__.r(__webpack_exports__);
           trigger: 'blur'
         }, {
           min: 6,
-          max: 20,
-          message: '长度在 6 到 20 个字符',
+          max: 64,
+          message: '长度在 6 到 64 个字符',
           trigger: 'blur'
         }]
       }

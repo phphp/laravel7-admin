@@ -30,10 +30,33 @@
                 width="180">
             </el-table-column>
             <el-table-column
-                prop="active"
                 label="启用"
                 width="60">
+                <template slot-scope="scope">
+                    <el-switch
+                        active-color="#13ce66"
+                        v-model="scope.row.active"
+                        disabled>
+                    </el-switch>
+                </template>
             </el-table-column>
+            <el-table-column label="操作" width="125">
+                <template v-slot="scope">
+                    <el-button
+                        type="primary"
+                        icon="el-icon-edit"
+                        @click="showEditAdmin(scope.row.id)"
+                        size="mini"
+                    ></el-button>
+                    <el-button
+                        type="danger"
+                        @click="deleteAdmin(scope.row.id)"
+                        icon="el-icon-delete"
+                        size="mini"
+                    ></el-button>
+                </template>
+            </el-table-column>
+
         </el-table>
 
         <div class="pagination-container">
@@ -92,11 +115,21 @@
                 this.pageSize = pageSize;
                 this.fetchAdmins();
             },
+
+            // 编辑表单
+            showEditAdmin(id) {
+
+            },
+
+            // 删除
+            deleteEditAdmin(id) {
+
+            },
         },
     }
 </script>
 
-<style scope>
+<style scoped>
 .pagination-container {
     margin-top: 20px;
 }

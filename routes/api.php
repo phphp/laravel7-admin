@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
+| 'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
 */
 \DB::enableQueryLog();
 
@@ -45,5 +46,11 @@ Route::group(
             'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
         ]);
 
+        Route::resource('roles', 'RoleController')->only([
+            'index', 'create', 'show', 'edit'
+        ]);
+        Route::resource('roles', 'RoleController')->only([
+            'store', 'update', 'destroy'
+        ])->middleware(['role:admin']);
     }
 );

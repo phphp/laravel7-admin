@@ -134,7 +134,7 @@ class AdminController extends Controller
             'page' => 'integer|min:1',
             'per_page' => 'integer|min:1|max:100',
         ]);
-        $admins = Admin::paginate($request->query('per_page', 15));
+        $admins = Admin::orderBy('id', 'desc')->paginate($request->query('per_page', 15));
         return json($admins);
     }
 }
