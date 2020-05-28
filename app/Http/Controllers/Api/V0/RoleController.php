@@ -38,21 +38,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'          => 'required|string|max:255|unique:admins',
-            'email'         => 'required|string|email|max:255|unique:admins',
-            'password'      => 'required|min:6|max:64',
-            'role'          => 'required|integer|exists:roles,id',
-        ]);
 
-        $admin = new Admin($request->all());
-        $admin->password = bcrypt($request->password);
-        $admin->save();
-
-        $role = Role::find($request->role);
-        $admin->assignRole($role->name);
-
-        return json($request->input());
     }
 
     /**

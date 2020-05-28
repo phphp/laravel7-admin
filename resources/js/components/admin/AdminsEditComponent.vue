@@ -20,7 +20,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="handleSubmit">立即创建</el-button>
+                <el-button type="primary" @click="handleSubmit">修改</el-button>
             </el-form-item>
         </el-form>
 
@@ -65,12 +65,10 @@
                         { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' },
                     ],
                     password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' },
                         { validator: validatePassword, trigger: 'blur' },
                         { min: 6, max: 64, message: '长度在 6 到 64 个字符', trigger: 'blur' },
                     ],
                     confirmPassword: [
-                        { required: true, message: '请重复输入密码', trigger: 'blur' },
                         { validator: confirmPassword, trigger: 'blur' },
                         { min: 6, max: 64, message: '长度在 6 到 64 个字符', trigger: 'blur' },
                     ],
@@ -83,15 +81,16 @@
             }
         },
         mounted() {
-            this.fetchRoles();
+            this.fetchRoles()
+            this.fetchAdmin(this.$route.params.id)
         },
         methods: {
             handleSubmit() {
                 this.$refs.form.validate(async valid => {
                     if (valid) {
-                        axios.post(`/api/v0/admin/admins`, this.form)
+                        axios.put(`/api/v0/admin/admins/${this.$route.params.id}`, this.form)
                             .then( (response) => {
-                                this.$router.push('/admins')
+                                // this.$router.push('/admins')
                             })
                             .catch( (error) => {
 
@@ -105,6 +104,17 @@
                 axios.get(`/api/v0/admin/roles`)
                     .then( (response) => {
                         this.roles = response.data.data
+                    })
+                    .catch( (error) => {
+
+                    });
+            },
+
+            // 查询管理员
+            fetchAdmin(id) {
+                axios.get(`/api/v0/admin/admins/${id}`)
+                    .then( (response) => {
+                        this.form = response.data.data
                     })
                     .catch( (error) => {
 

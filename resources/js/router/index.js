@@ -26,6 +26,11 @@ const router = new VueRouter({
                     component: resolve => void (require(['../components/admin/AdminsCreateComponent.vue'], resolve)),
                     meta: { title: '添加管理员' }
                 },
+                {
+                    path: '/admins/edit/:id',
+                    component: resolve => void (require(['../components/admin/AdminsEditComponent.vue'], resolve)),
+                    meta: { title: '修改管理员' }
+                },
 
                 {
                     path: '/sub',

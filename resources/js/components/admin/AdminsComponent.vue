@@ -111,14 +111,13 @@
 
             // 监听修改分页尺寸
             handleSizeChange(pageSize) {
-                // this.fetchAdmins(pageNum);
                 this.pageSize = pageSize;
                 this.fetchAdmins();
             },
 
             // 编辑表单
             showEditAdmin(id) {
-
+                this.$router.push('/admins/edit/' + id)
             },
 
             // 删除

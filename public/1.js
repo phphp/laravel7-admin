@@ -121,12 +121,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 监听修改分页尺寸
     handleSizeChange: function handleSizeChange(pageSize) {
-      // this.fetchAdmins(pageNum);
       this.pageSize = pageSize;
       this.fetchAdmins();
     },
     // 编辑表单
-    showEditAdmin: function showEditAdmin(id) {},
+    showEditAdmin: function showEditAdmin(id) {
+      this.$router.push('/admins/edit/' + id);
+    },
     // 删除
     deleteEditAdmin: function deleteEditAdmin(id) {}
   }

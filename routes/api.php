@@ -43,14 +43,17 @@ Route::group(
         Route::get('refresh-token', 'AdminController@refreshToken');
 
         Route::resource('admins', 'AdminController')->only([
-            'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
-        ]);
+            'index', 'create', 'show', 'edit'
+        ])->middleware(['role:root|admin']);
+        Route::resource('admins', 'AdminController')->only([
+            'store', 'update', 'destroy'
+        ])->middleware(['role:root|admin']);
 
         Route::resource('roles', 'RoleController')->only([
             'index', 'create', 'show', 'edit'
-        ]);
+        ])->middleware(['role:root|admin']);
         Route::resource('roles', 'RoleController')->only([
             'store', 'update', 'destroy'
-        ])->middleware(['role:admin']);
+        ])->middleware(['role:root|admin']);
     }
 );

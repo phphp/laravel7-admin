@@ -115637,6 +115637,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         title: '添加管理员'
       }
     }, {
+      path: '/admins/edit/:id',
+      component: function component(resolve) {
+        return void Promise.all(/*! AMD require */[__webpack_require__.e(6), __webpack_require__.e(8)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsEditComponent.vue */ "./resources/js/components/admin/AdminsEditComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: '修改管理员'
+      }
+    }, {
       path: '/sub',
       component: function component(resolve) {
         return void __webpack_require__.e(/*! AMD require */ 5).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
