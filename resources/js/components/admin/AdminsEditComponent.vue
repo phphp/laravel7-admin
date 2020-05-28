@@ -32,19 +32,13 @@
     export default {
         data() {
             var validatePassword = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入密码'));
-                } else {
-                    if (this.form.confirmPassword !== '') {
-                        this.$refs.form.validateField('confirmPassword');
-                    }
-                    callback();
+                if (this.form.confirmPassword !== '') {
+                    this.$refs.form.validateField('confirmPassword');
                 }
+                callback();
             };
             var confirmPassword = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请再次输入密码'));
-                } else if (value !== this.form.password) {
+                 if (value !== this.form.password && (this.form.password != '' && value != '')) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();

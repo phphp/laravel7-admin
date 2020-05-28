@@ -52,21 +52,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     var validatePassword = function validatePassword(rule, value, callback) {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (_this.form.confirmPassword !== '') {
-          _this.$refs.form.validateField('confirmPassword');
-        }
-
-        callback();
+      if (_this.form.confirmPassword !== '') {
+        _this.$refs.form.validateField('confirmPassword');
       }
+
+      callback();
     };
 
     var confirmPassword = function confirmPassword(rule, value, callback) {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== _this.form.password) {
+      if (value !== _this.form.password && _this.form.password != '' && value != '') {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
