@@ -86,9 +86,23 @@ axios.interceptors.response.use(
         }
 
 
+        if (response.status === 201) {
+            app.$message({
+                message: '写入成功',
+                type: 'success'
+            });
+        }
+        if (response.status === 204) {
+            app.$message({
+                message: '删除成功',
+                type: 'success'
+            });
+        }
+
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
-        if (response.status === 200) {
+        let code = response.status.toString();
+        if (code.charAt(0) == '2') {
             return Promise.resolve(response);
         } else {
             return Promise.reject(response);
