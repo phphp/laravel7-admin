@@ -185,6 +185,15 @@ class AdminController extends Controller
         return json( $admin, 201 );
     }
 
+    public function destroy($id)
+    {
+        $admin = Admin::findOrFail($id);
+        $admin->roles()->detach();
+        // $user->removeRole('writer');
+        $admin->delete();
+        return json( null, 204 );
+    }
+
     /**
      * 加密表单中的 password 字段，password 为空，则从 $request 中剔除它
      * @param  \Illuminate\Http\Request $request
