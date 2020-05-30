@@ -115434,11 +115434,27 @@ axios.interceptors.response.use(function (response) {
 
   if (needLoadingRequestCount === 0) {
     if (showLoading) loading.close();
+  }
+
+  if (response.status === 201) {
+    app.$message({
+      message: '写入成功',
+      type: 'success'
+    });
+  }
+
+  if (response.status === 204) {
+    app.$message({
+      message: '删除成功',
+      type: 'success'
+    });
   } // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
   // 否则的话抛出错误
 
 
-  if (response.status === 200) {
+  var code = response.status.toString();
+
+  if (code.charAt(0) == '2') {
     return Promise.resolve(response);
   } else {
     return Promise.reject(response);
@@ -115608,22 +115624,46 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: "index",
     path: '/',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/MainComponent.vue */ "./resources/js/components/admin/MainComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/MainComponent.vue */ "./resources/js/components/admin/MainComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
     },
     redirect: '/index',
     // 默认显示 index 子组件
     children: [{
       path: '/index',
       component: function component(resolve) {
-        return void __webpack_require__.e(/*! AMD require */ 3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/IndexComponent.vue */ "./resources/js/components/admin/IndexComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        return void __webpack_require__.e(/*! AMD require */ 6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/IndexComponent.vue */ "./resources/js/components/admin/IndexComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
       },
       meta: {
         title: '控制台'
       }
     }, {
+      path: '/admins',
+      component: function component(resolve) {
+        return void __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsComponent.vue */ "./resources/js/components/admin/AdminsComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: '管理员列表'
+      }
+    }, {
+      path: '/admins/create',
+      component: function component(resolve) {
+        return void Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsCreateComponent.vue */ "./resources/js/components/admin/AdminsCreateComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: '添加管理员'
+      }
+    }, {
+      path: '/admins/edit/:id',
+      component: function component(resolve) {
+        return void Promise.all(/*! AMD require */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/AdminsEditComponent.vue */ "./resources/js/components/admin/AdminsEditComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      },
+      meta: {
+        title: '修改管理员'
+      }
+    }, {
       path: '/sub',
       component: function component(resolve) {
-        return void __webpack_require__.e(/*! AMD require */ 4).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        return void __webpack_require__.e(/*! AMD require */ 7).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/admin/SubComponent.vue */ "./resources/js/components/admin/SubComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
       },
       meta: {
         title: 'sub'
@@ -115633,7 +115673,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: "login",
     path: '/login',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/LoginComponent.vue */ "./resources/js/components/LoginComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/LoginComponent.vue */ "./resources/js/components/LoginComponent.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
     }
   }]
 }); // 导航守卫

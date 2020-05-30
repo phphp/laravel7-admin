@@ -127,4 +127,85 @@ class AdminController extends Controller
         // abort(403);
         return response()->json(auth()->user());
     }
+
+    public function index(Request $request)
+    {
+        $request->validate([
+            'page' => 'integer|min:1',
+            'per_page' => 'integer|min:1|max:100',
+        ]);
+        $admins = Admin::orderBy('id', 'desc')->paginate($request->query('per_page', 15));
+        return json($admins);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'          => 'required|string|max:255|unique:admins',
+            'email'         => 'required|string|email|max:255|unique:admins',
+            'password'      => 'required|min:6|max:64',
+            'role'          => 'required|integer|exists:roles,id',
+        ]);
+
+        $admin = new Admin($request->all());
+        $admin->password = bcrypt($request->password);
+        $admin->save();
+
+        $role = Role::find($request->role);
+        $admin->assignRole($role->name);
+
+        return json($request->input(), 201);
+    }
+
+    public function show($id)
+    {
+        $admin = Admin::findOrFail($id);
+        $admin->getRoleNames();
+        $admin->role = $admin->roles[0]['id'];
+        return json($admin);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name'          => 'required|string|max:255|unique:admins,name,'.$id,
+            'email'         => 'required|string|email|max:255|unique:admins,email,'.$id,
+            'password'      => 'nullable|min:6|max:64',
+            'role'          => 'required|integer|exists:roles,id',
+        ]);
+
+        $admin = Admin::findOrFail($id);
+        $this->bcryptInputPassword($request);
+        $admin->fill($request->input());
+        $admin->save();
+
+        $role = Role::find($request->role);
+        $admin->syncRoles([$role->name]);
+
+        return json( $admin, 201 );
+    }
+
+    public function destroy($id)
+    {
+        $admin = Admin::findOrFail($id);
+        $admin->roles()->detach();
+        // $user->removeRole('writer');
+        $admin->delete();
+        return json( null, 204 );
+    }
+
+    /**
+     * 加密表单中的 password 字段，password 为空，则从 $request 中剔除它
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Request 剔除或加密 password 后的 $request
+     */
+    private function bcryptInputPassword($request)
+    {
+        if ( $request->password )
+            $request->merge(['password' => bcrypt($request->password)]);
+        else
+            $request->offsetUnset('password');
+
+        return $request;
+    }
 }

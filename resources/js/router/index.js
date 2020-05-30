@@ -17,6 +17,22 @@ const router = new VueRouter({
                     meta: { title: '控制台' }
                 },
                 {
+                    path: '/admins',
+                    component: resolve => void (require(['../components/admin/AdminsComponent.vue'], resolve)),
+                    meta: { title: '管理员列表' }
+                },
+                {
+                    path: '/admins/create',
+                    component: resolve => void (require(['../components/admin/AdminsCreateComponent.vue'], resolve)),
+                    meta: { title: '添加管理员' }
+                },
+                {
+                    path: '/admins/edit/:id',
+                    component: resolve => void (require(['../components/admin/AdminsEditComponent.vue'], resolve)),
+                    meta: { title: '修改管理员' }
+                },
+
+                {
                     path: '/sub',
                     component: resolve => void (require(['../components/admin/SubComponent.vue'], resolve)),
                     meta: { title: 'sub' }

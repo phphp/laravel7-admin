@@ -3,9 +3,11 @@
 
         <el-aside :width="isCollapse ? '65px' : '220px'">
             <el-menu
-                :default-openeds="[]"
                 :collapse="isCollapse"
                 :collapse-transition="false"
+                router
+                :default-active="$route.path"
+                unique-opened
                 >
 
                 <el-submenu index="1">
@@ -37,12 +39,20 @@
                     <span slot="title">导航三</span>
                 </el-menu-item>
 
-                <el-menu-item index="4">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">导航四</span>
-                </el-menu-item>
 
-                <el-menu-item index="5" @click="changeCollapse">
+
+                <el-submenu index="4">
+                    <template slot="title">
+                        <i class="el-icon-s-custom"></i>
+                        <span slot="title">管理员</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="/admins">列表</el-menu-item>
+                        <el-menu-item index="/admins/create">添加</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-menu-item @click="changeCollapse">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>
@@ -51,15 +61,23 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
-                <el-dropdown>
-                    <i class="el-icon-setting" style="margin-right: 15px"></i>
-                    <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>查看</el-dropdown-item>
-                    <el-dropdown-item>新增</el-dropdown-item>
-                    <el-dropdown-item>删除</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+
+            <el-header class="page-header">
+                <el-row :gutter="20" type="flex" align="middle">
+                    <el-col :span="14">
+                        <el-page-header @back="goBack" :content="$route.meta.title"></el-page-header>
+                    </el-col>
+                    <el-col :span="10" style="text-align: right;">
+                        <el-dropdown>
+                            <i class="el-icon-setting" style="margin-right: 15px"></i>
+                            <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>查看</el-dropdown-item>
+                            <el-dropdown-item>新增</el-dropdown-item>
+                            <el-dropdown-item>删除</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </el-col>
+                </el-row>
             </el-header>
 
             <el-main>
@@ -87,6 +105,9 @@
             changeCollapse() {
                 this.isCollapse = !this.isCollapse
                 localStorage.setItem('nav_is_collapse', this.isCollapse);
+            },
+            goBack() {
+                window.history.back();
             }
         }
     }
@@ -103,6 +124,9 @@
     }
     .el-menu {
         border-right: none;
+    }
+    .page-header .el-row {
+        height: 60px;
     }
 
 </style>
