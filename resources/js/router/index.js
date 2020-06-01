@@ -33,10 +33,11 @@ const router = new VueRouter({
                 },
 
                 {
-                    path: '/sub',
-                    component: resolve => void (require(['../components/admin/SubComponent.vue'], resolve)),
-                    meta: { title: 'sub' }
+                    path: '/permissions',
+                    component: resolve => void (require(['../components/admin/PermissionsComponent.vue'], resolve)),
+                    meta: { title: '权限列表' }
                 },
+
             ]
         },
 

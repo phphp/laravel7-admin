@@ -55,5 +55,12 @@ Route::group(
         Route::resource('roles', 'RoleController')->only([
             'store', 'update', 'destroy'
         ])->middleware(['role:root|admin']);
+
+        Route::resource('permissions', 'PermissionController')->only([
+            'index', 'create', 'show', 'edit'
+        ])->middleware(['role:root|admin']);
+        Route::resource('permissions', 'PermissionController')->only([
+            'store', 'update', 'destroy'
+        ])->middleware(['role:root|admin']);
     }
 );

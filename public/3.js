@@ -102,6 +102,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -305,6 +316,37 @@ var render = function() {
                       _c(
                         "el-menu-item",
                         { attrs: { index: "/admins/create" } },
+                        [_vm._v("添加")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "el-submenu",
+                { attrs: { index: "6" } },
+                [
+                  _c("template", { slot: "title" }, [
+                    _c("i", { staticClass: "el-icon-s-custom" }),
+                    _vm._v(" "),
+                    _c("span", { attrs: { slot: "title" }, slot: "title" }, [
+                      _vm._v("权限设置")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "el-menu-item-group",
+                    [
+                      _c("el-menu-item", { attrs: { index: "/permissions" } }, [
+                        _vm._v("列表")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "el-menu-item",
+                        { attrs: { index: "/permissions/create" } },
                         [_vm._v("添加")]
                       )
                     ],

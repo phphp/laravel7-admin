@@ -52,6 +52,17 @@
                     </el-menu-item-group>
                 </el-submenu>
 
+                <el-submenu index="6">
+                    <template slot="title">
+                        <i class="el-icon-s-custom"></i>
+                        <span slot="title">权限设置</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="/permissions">列表</el-menu-item>
+                        <el-menu-item index="/permissions/create">添加</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
                 <el-menu-item @click="changeCollapse">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
