@@ -172,6 +172,7 @@ class AdminController extends Controller
             'email'         => 'required|string|email|max:255|unique:admins,email,'.$id,
             'password'      => 'nullable|min:6|max:64',
             'role'          => 'required|integer|exists:roles,id',
+            'active'        => 'required|boolean'
         ]);
 
         $admin = Admin::findOrFail($id);

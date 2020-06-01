@@ -47,6 +47,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -272,6 +276,23 @@ var render = function() {
                     _vm.$set(_vm.form, "confirmPassword", $$v)
                   },
                   expression: "form.confirmPassword"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            { attrs: { label: "激活" } },
+            [
+              _c("el-switch", {
+                model: {
+                  value: _vm.form.active,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "active", $$v)
+                  },
+                  expression: "form.active"
                 }
               })
             ],

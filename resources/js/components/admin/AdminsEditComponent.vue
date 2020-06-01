@@ -14,6 +14,10 @@
             <el-form-item label="确认密码" prop="confirmPassword">
                 <el-input type="password" v-model="form.confirmPassword" autocomplete="off"></el-input>
             </el-form-item>
+
+            <el-form-item label="激活">
+                <el-switch v-model="form.active"></el-switch>
+            </el-form-item>
             <el-form-item label="选择角色" prop="role">
                 <el-select v-model="form.role">
                     <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id"></el-option>

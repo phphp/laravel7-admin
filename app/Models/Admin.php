@@ -19,7 +19,7 @@ class Admin extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active'
     ];
 
     /**
@@ -53,6 +53,11 @@ class Admin extends Authenticatable implements JWTSubject
 
     public function getActiveAttribute($value)
     {
-        return ($value == 1) ? true : flase;
+        return ($value == 1) ? true : false;
+    }
+
+    public function setActiveAttribute($value)
+    {
+        $this->attributes['active'] = (int) $value;
     }
 }
