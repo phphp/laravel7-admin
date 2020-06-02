@@ -103,11 +103,34 @@
                 this.fetchPermission();
             },
 
-            showEditPermission() {
-
+            showEditPermission(id) {
+                this.$router.push('/permissions/edit/' + id)
             },
-            deletePermission() {
+            deletePermission(id) {
+                this.$confirm('确认删除', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete(`/api/v0/admin/permissions/${id}`)
+                    .then( (response) => {
+                        // 删除数组中相应 id
+                        for ( var key in this.permissions ) {
+                            if ( this.permissions[key].id == id ) {
+                                this.permissions.splice(key, 1);
+                                break
+                            }
+                        }
+                    })
+                    .catch( (error) => {
 
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
         }
     }

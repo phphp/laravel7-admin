@@ -154,7 +154,7 @@ class AdminController extends Controller
         $role = Role::find($request->role);
         $admin->assignRole($role->name);
 
-        return json($request->input(), 201);
+        return json($admin, 201);
     }
 
     public function show($id)
@@ -189,8 +189,6 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $admin = Admin::findOrFail($id);
-        $admin->roles()->detach();
-        // $user->removeRole('writer');
         $admin->delete();
         return json( null, 204 );
     }
