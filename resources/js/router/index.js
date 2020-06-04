@@ -37,7 +37,32 @@ const router = new VueRouter({
                     component: resolve => void (require(['../components/admin/PermissionsComponent.vue'], resolve)),
                     meta: { title: '权限列表' }
                 },
+                {
+                    path: '/permissions/create',
+                    component: resolve => void (require(['../components/admin/PermissionsCreateComponent.vue'], resolve)),
+                    meta: { title: '添加权限' }
+                },
+                {
+                    path: '/permissions/edit/:id',
+                    component: resolve => void (require(['../components/admin/PermissionsEditComponent.vue'], resolve)),
+                    meta: { title: '修改权限' }
+                },
 
+                {
+                    path: '/roles',
+                    component: resolve => void (require(['../components/admin/RolesComponent.vue'], resolve)),
+                    meta: { title: '角色列表' }
+                },
+                {
+                    path: '/roles/create',
+                    component: resolve => void (require(['../components/admin/RolesCreateComponent.vue'], resolve)),
+                    meta: { title: '添加角色' }
+                },
+                {
+                    path: '/roles/edit/:id',
+                    component: resolve => void (require(['../components/admin/RolesEditComponent.vue'], resolve)),
+                    meta: { title: '修改角色' }
+                },
             ]
         },
 

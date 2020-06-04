@@ -15,15 +15,24 @@ class AdminsTableSeeder extends Seeder
     public function run()
     {
         // 创建可用的权限
-        // Permission::create(['guard_name' => 'admin-api', 'name' => '添加后台管理员']);
-        // Permission::create(['guard_name' => 'admin-api', 'name' => '删除后台管理员']);
-        // Permission::create(['guard_name' => 'admin-api', 'name' => '修改后台管理员']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.store']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.update']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.destroy']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.store']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.update']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.destroy']);
 
         // 创建角色并赋权
         $rootRole = Role::create(['guard_name' => 'admin-api', 'name' => 'root']);
-        // $rootRole->givePermissionTo('添加后台管理员');
-        // $rootRole->givePermissionTo('删除后台管理员');
+
         $adminRole = Role::create(['guard_name' => 'admin-api', 'name' => 'admin']);
+        $adminRole->givePermissionTo('admins.store');
+        $adminRole->givePermissionTo('admins.update');
+        $adminRole->givePermissionTo('admins.destroy');
+        $adminRole->givePermissionTo('permissions.store');
+        $adminRole->givePermissionTo('permissions.update');
+        $adminRole->givePermissionTo('permissions.destroy');
+
         $visitorRole = Role::create(['guard_name' => 'admin-api', 'name' => 'visitor']);
 
         // 创建管理员

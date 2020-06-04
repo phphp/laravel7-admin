@@ -3,7 +3,7 @@
         <el-table
             stripe
             border
-            :data="permissions"
+            :data="roles"
             style="width: 100%">
             <el-table-column
                 prop="id"
@@ -34,12 +34,12 @@
                     <el-button
                         type="primary"
                         icon="el-icon-edit"
-                        @click="showEditPermission(scope.row.id)"
+                        @click="showEditRole(scope.row.id)"
                         size="mini"
                     ></el-button>
                     <el-button
                         type="danger"
-                        @click="deletePermission(scope.row.id)"
+                        @click="deleteRole(scope.row.id)"
                         icon="el-icon-delete"
                         size="mini"
                     ></el-button>
@@ -69,21 +69,21 @@
     export default {
         data() {
             return {
-                permissions: [],
+                roles: [],
                 total: 0, // 分页总数
                 pageSize: 15, // 分页尺寸
                 currentPage: 1, // 当前页码
             }
         },
         mounted() {
-            this.fetchPermission();
+            this.fetchRoles();
         },
         methods: {
-            fetchPermission(pageNum=1) {
+            fetchRoles(pageNum=1) {
                 this.currentPage = pageNum
-                axios.get(`/api/v0/admin/permissions?page=${pageNum}&per_page=${this.pageSize}`)
+                axios.get(`/api/v0/admin/roles?page=${pageNum}&per_page=${this.pageSize}`)
                     .then( (response) => {
-                        this.permissions = response.data.data.data
+                        this.roles = response.data.data.data
                         this.total = response.data.data.total
                         this.pageSize = parseInt(response.data.data.per_page)
                     })
@@ -94,30 +94,30 @@
 
             // 监听修改页码
             handleCurrentChange(pageNum) {
-                this.fetchPermission(pageNum);
+                this.fetchRoles(pageNum);
             },
 
             // 监听修改分页尺寸
             handleSizeChange(pageSize) {
                 this.pageSize = pageSize;
-                this.fetchPermission();
+                this.fetchRoles();
             },
 
-            showEditPermission(id) {
-                this.$router.push('/permissions/edit/' + id)
+            showEditRole(id) {
+                this.$router.push('/roles/edit/' + id)
             },
-            deletePermission(id) {
+            deleteRole(id) {
                 this.$confirm('确认删除', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.delete(`/api/v0/admin/permissions/${id}`)
+                    axios.delete(`/api/v0/admin/roles/${id}`)
                     .then( (response) => {
                         // 删除数组中相应 id
-                        for ( var key in this.permissions ) {
-                            if ( this.permissions[key].id == id ) {
-                                this.permissions.splice(key, 1);
+                        for ( var key in this.roles ) {
+                            if ( this.roles[key].id == id ) {
+                                this.roles.splice(key, 1);
                                 break
                             }
                         }

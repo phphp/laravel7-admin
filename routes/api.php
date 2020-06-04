@@ -45,9 +45,9 @@ Route::group(
         Route::resource('admins', 'AdminController')->only([
             'index', 'create', 'show', 'edit'
         ])->middleware(['role:root|admin']);
-        Route::resource('admins', 'AdminController')->only([
-            'store', 'update', 'destroy'
-        ])->middleware(['role:root|admin']);
+        Route::post('admins', 'AdminController@store')->middleware(['role_or_permission:root|admins.store']);
+        Route::put('admins/{admin}', 'AdminController@update')->middleware(['role_or_permission:root|admins.update']);
+        Route::delete('admins/{admin}', 'AdminController@destroy')->middleware(['role_or_permission:root|admins.destroy']);
 
         Route::resource('roles', 'RoleController')->only([
             'index', 'create', 'show', 'edit'
@@ -59,8 +59,9 @@ Route::group(
         Route::resource('permissions', 'PermissionController')->only([
             'index', 'create', 'show', 'edit'
         ])->middleware(['role:root|admin']);
-        Route::resource('permissions', 'PermissionController')->only([
-            'store', 'update', 'destroy'
-        ])->middleware(['role:root|admin']);
+        Route::post('permissions', 'PermissionController@store')->middleware(['role_or_permission:root|permissions.store']);
+        Route::put('permissions/{permission}', 'PermissionController@update')->middleware(['role_or_permission:root|permissions.update']);
+        Route::delete('permissions/{permission}', 'PermissionController@destroy')->middleware(['role_or_permission:root|permissions.destroy']);
+
     }
 );
