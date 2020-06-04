@@ -13,6 +13,8 @@ class Admin extends Authenticatable implements JWTSubject
     use Notifiable;
     use HasRoles; // for laravel-permission authorization
 
+        // #guard_name与HasRole配合使用,指定权限默认guard_name
+        // protected $guard_name = 'admin-api';
     /**
      * The attributes that are mass assignable.
      *

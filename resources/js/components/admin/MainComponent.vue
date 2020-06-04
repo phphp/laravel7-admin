@@ -52,9 +52,20 @@
                     </el-menu-item-group>
                 </el-submenu>
 
+                <el-submenu index="5">
+                    <template slot="title">
+                        <i class="el-icon-s-management"></i>
+                        <span slot="title">角色设置</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="/roles">列表</el-menu-item>
+                        <el-menu-item index="/roles/create">添加</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
                 <el-submenu index="6">
                     <template slot="title">
-                        <i class="el-icon-s-custom"></i>
+                        <i class="el-icon-collection"></i>
                         <span slot="title">权限设置</span>
                     </template>
                     <el-menu-item-group>
