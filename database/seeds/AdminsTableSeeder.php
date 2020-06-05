@@ -18,6 +18,9 @@ class AdminsTableSeeder extends Seeder
         Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.store']);
         Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.update']);
         Permission::create(['guard_name' => 'admin-api', 'name' => 'admins.destroy']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'roles.store']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'roles.update']);
+        Permission::create(['guard_name' => 'admin-api', 'name' => 'roles.destroy']);
         Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.store']);
         Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.update']);
         Permission::create(['guard_name' => 'admin-api', 'name' => 'permissions.destroy']);
@@ -26,9 +29,6 @@ class AdminsTableSeeder extends Seeder
         $rootRole = Role::create(['guard_name' => 'admin-api', 'name' => 'root']);
 
         $adminRole = Role::create(['guard_name' => 'admin-api', 'name' => 'admin']);
-        $adminRole->givePermissionTo('admins.store');
-        $adminRole->givePermissionTo('admins.update');
-        $adminRole->givePermissionTo('admins.destroy');
         $adminRole->givePermissionTo('permissions.store');
         $adminRole->givePermissionTo('permissions.update');
         $adminRole->givePermissionTo('permissions.destroy');

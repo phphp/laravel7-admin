@@ -104,30 +104,6 @@ class AdminController extends Controller
         return $rs;
     }
 
-    function test(Request $request) {
-
-        return response()->json(auth()->user());
-        // auth()->user()->assignRole('writer');
-        // return response()->json(auth()->user()->getPermissionsViaRoles());
-
-
-
-        $role = Role::firstOrCreate(['name' => 'writer']);  // 创建角色
-        $permission = Permission::firstOrCreate(['name' => 'edit articles']);// 创建权限
-
-        $role->givePermissionTo($permission); // 添加
-
-        sleep(1);
-
-        // $validatedData = $request->validate([
-        //     'title' => 'required|unique:posts|max:255',
-        //     'body' => 'required',
-        // ]);
-
-        // abort(403);
-        return response()->json(auth()->user());
-    }
-
     public function index(Request $request)
     {
         $request->validate([

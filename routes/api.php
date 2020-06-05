@@ -39,7 +39,6 @@ Route::group(
         'middleware' => 'auth:admin-api'
     ],
     function () {
-        Route::get('test', 'AdminController@test')->middleware(['role:admin']);
         Route::get('refresh-token', 'AdminController@refreshToken');
 
         Route::resource('admins', 'AdminController')->only([
@@ -52,9 +51,9 @@ Route::group(
         Route::resource('roles', 'RoleController')->only([
             'index', 'create', 'show', 'edit'
         ])->middleware(['role:root|admin']);
-        Route::resource('roles', 'RoleController')->only([
-            'store', 'update', 'destroy'
-        ])->middleware(['role:root|admin']);
+        Route::post('roles', 'RoleController@store')->middleware(['role_or_permission:root|roles.store']);
+        Route::put('roles/{role}', 'RoleController@update')->middleware(['role_or_permission:root|roles.update']);
+        Route::delete('roles/{role}', 'RoleController@destroy')->middleware(['role_or_permission:root|roles.destroy']);
 
         Route::resource('permissions', 'PermissionController')->only([
             'index', 'create', 'show', 'edit'

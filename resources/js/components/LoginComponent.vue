@@ -45,7 +45,7 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+
         },
         methods: {
             login(formName) {
