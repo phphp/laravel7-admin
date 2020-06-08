@@ -98,6 +98,7 @@ class AdminController extends Controller
      * refresh token
      */
     function refreshToken() {
+        if (!$this->guard()->user()->active) abort(401);
         $rs = $this->makeToken($this->guard()->user());
         unset($rs['refresh_token']);
         unset($rs['refresh_TTL']);
@@ -182,5 +183,28 @@ class AdminController extends Controller
             $request->offsetUnset('password');
 
         return $request;
+    }
+
+    public function profile()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        return json($admin);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = $request->user()->id;
+        $request->validate([
+            'name'          => 'required|string|max:255|unique:admins,name,'.$id,
+            'email'         => 'required|string|email|max:255|unique:admins,email,'.$id,
+            'password'      => 'nullable|min:6|max:64',
+        ]);
+
+        $admin = Admin::findOrFail($id);
+        $this->bcryptInputPassword($request);
+        $admin->fill($request->except(['active']));
+        $admin->save();
+
+        return json( $admin, 201 );
     }
 }

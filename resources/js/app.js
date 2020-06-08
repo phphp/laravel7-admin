@@ -166,7 +166,20 @@ axios.interceptors.response.use(
                     break;
 
                 case 422:
-                    let htmlMessage = ''
+                    var htmlMessage = ''
+                    Object.keys(error.response.data.errors).forEach((index) => {
+                        htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>'
+                    })
+                    app.$message({
+                        dangerouslyUseHTMLString: true,
+                        type: 'error',
+                        message: '<ul>' + htmlMessage + '</ul>',
+                    })
+                    break;
+
+                // Too Many Requests
+                case 429:
+                    var htmlMessage = ''
                     Object.keys(error.response.data.errors).forEach((index) => {
                         htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>'
                     })

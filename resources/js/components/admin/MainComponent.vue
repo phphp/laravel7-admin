@@ -48,7 +48,7 @@
                     </el-menu-item-group>
                 </el-submenu>
 
-                <el-menu-item @click="changeCollapse">
+                <el-menu-item @click="changeCollapse" index="7">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>
@@ -64,12 +64,11 @@
                         <el-page-header @back="goBack" :content="$route.meta.title"></el-page-header>
                     </el-col>
                     <el-col :span="10" style="text-align: right;">
-                        <el-dropdown>
-                            <i class="el-icon-setting" style="margin-right: 15px"></i>
+                        <el-dropdown @command="handleCommand">
+                            <i class="el-icon-setting" style="margin-right: 15px"> 设置</i>
                             <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>查看</el-dropdown-item>
-                            <el-dropdown-item>新增</el-dropdown-item>
-                            <el-dropdown-item>删除</el-dropdown-item>
+                            <el-dropdown-item command="editProfile">修改资料</el-dropdown-item>
+                            <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </el-col>
@@ -104,7 +103,19 @@
             },
             goBack() {
                 window.history.back();
-            }
+            },
+            handleCommand(command) {
+                eval('this.'+command+'()');
+            },
+            logout() {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                this.$router.push('/login')
+                this.$message('退出成功');
+            },
+            editProfile() {
+                this.$router.push('/edit-profile')
+            },
         }
     }
 </script>
@@ -124,5 +135,7 @@
     .page-header .el-row {
         height: 60px;
     }
-
+    .el-dropdown {
+        cursor: pointer;
+    }
 </style>

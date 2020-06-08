@@ -41,6 +41,8 @@ Route::group(
     function () {
         Route::get('refresh-token', 'AdminController@refreshToken');
 
+        Route::get('profile', 'AdminController@profile');
+        Route::post('profile', 'AdminController@updateProfile');
         Route::resource('admins', 'AdminController')->only([
             'index', 'create', 'show', 'edit'
         ])->middleware(['role:root|admin']);

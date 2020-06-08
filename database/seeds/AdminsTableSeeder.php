@@ -29,9 +29,8 @@ class AdminsTableSeeder extends Seeder
         $rootRole = Role::create(['guard_name' => 'admin-api', 'name' => 'root']);
 
         $adminRole = Role::create(['guard_name' => 'admin-api', 'name' => 'admin']);
+        $adminRole->givePermissionTo('roles.store');
         $adminRole->givePermissionTo('permissions.store');
-        $adminRole->givePermissionTo('permissions.update');
-        $adminRole->givePermissionTo('permissions.destroy');
 
         $visitorRole = Role::create(['guard_name' => 'admin-api', 'name' => 'visitor']);
 

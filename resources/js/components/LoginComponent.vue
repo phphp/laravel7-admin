@@ -57,6 +57,10 @@
                                 localStorage.setItem('access_token', response.data.access_token);
                                 localStorage.setItem('refresh_token', response.data.refresh_token);
                                 this.$router.push('/index')
+                                this.$message({
+                                    message: '欢迎回来',
+                                    type: 'success'
+                                });
                             })
                             .catch( (error) => {
 

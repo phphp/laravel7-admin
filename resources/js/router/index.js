@@ -63,6 +63,12 @@ const router = new VueRouter({
                     component: resolve => void (require(['../components/admin/RolesEditComponent.vue'], resolve)),
                     meta: { title: '修改角色' }
                 },
+
+                {
+                    path: '/edit-profile',
+                    component: resolve => void (require(['../components/admin/EditProfileComponent.vue'], resolve)),
+                    meta: { title: '修改资料' }
+                },
             ]
         },
 
