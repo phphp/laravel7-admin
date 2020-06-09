@@ -14,11 +14,61 @@ const router = new VueRouter({
                 {
                     path: '/index',
                     component: resolve => void (require(['../components/admin/IndexComponent.vue'], resolve)),
+                    meta: { title: '控制台' }
                 },
                 {
-                    path: '/sub',
-                    component: resolve => void (require(['../components/admin/SubComponent.vue'], resolve)),
-                }
+                    path: '/admins',
+                    component: resolve => void (require(['../components/admin/AdminsComponent.vue'], resolve)),
+                    meta: { title: '管理员列表' }
+                },
+                {
+                    path: '/admins/create',
+                    component: resolve => void (require(['../components/admin/AdminsCreateComponent.vue'], resolve)),
+                    meta: { title: '添加管理员' }
+                },
+                {
+                    path: '/admins/edit/:id',
+                    component: resolve => void (require(['../components/admin/AdminsEditComponent.vue'], resolve)),
+                    meta: { title: '修改管理员' }
+                },
+
+                {
+                    path: '/permissions',
+                    component: resolve => void (require(['../components/admin/PermissionsComponent.vue'], resolve)),
+                    meta: { title: '权限列表' }
+                },
+                {
+                    path: '/permissions/create',
+                    component: resolve => void (require(['../components/admin/PermissionsCreateComponent.vue'], resolve)),
+                    meta: { title: '添加权限' }
+                },
+                {
+                    path: '/permissions/edit/:id',
+                    component: resolve => void (require(['../components/admin/PermissionsEditComponent.vue'], resolve)),
+                    meta: { title: '修改权限' }
+                },
+
+                {
+                    path: '/roles',
+                    component: resolve => void (require(['../components/admin/RolesComponent.vue'], resolve)),
+                    meta: { title: '角色列表' }
+                },
+                {
+                    path: '/roles/create',
+                    component: resolve => void (require(['../components/admin/RolesCreateComponent.vue'], resolve)),
+                    meta: { title: '添加角色' }
+                },
+                {
+                    path: '/roles/edit/:id',
+                    component: resolve => void (require(['../components/admin/RolesEditComponent.vue'], resolve)),
+                    meta: { title: '修改角色' }
+                },
+
+                {
+                    path: '/edit-profile',
+                    component: resolve => void (require(['../components/admin/EditProfileComponent.vue'], resolve)),
+                    meta: { title: '修改资料' }
+                },
             ]
         },
 

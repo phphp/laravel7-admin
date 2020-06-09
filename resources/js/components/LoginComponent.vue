@@ -39,13 +39,13 @@
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' },
-                        { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
+                        { min: 6, max: 64, message: '长度在 6 到 64 个字符', trigger: 'blur' },
                     ],
                 },
             }
         },
         mounted() {
-            console.log('Component mounted.')
+
         },
         methods: {
             login(formName) {
@@ -57,6 +57,10 @@
                                 localStorage.setItem('access_token', response.data.access_token);
                                 localStorage.setItem('refresh_token', response.data.refresh_token);
                                 this.$router.push('/index')
+                                this.$message({
+                                    message: '欢迎回来',
+                                    type: 'success'
+                                });
                             })
                             .catch( (error) => {
 

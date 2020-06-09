@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Admin extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use HasRoles; // for laravel-permission authorization
 
+        // #guard_name与HasRole配合使用,指定权限默认guard_name
+        // protected $guard_name = 'admin-api';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active'
     ];
 
     /**
@@ -48,5 +51,15 @@ class Admin extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getActiveAttribute($value)
+    {
+        return ($value == 1) ? true : false;
+    }
+
+    public function setActiveAttribute($value)
+    {
+        $this->attributes['active'] = (int) $value;
     }
 }

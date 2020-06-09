@@ -2,6 +2,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router/index.js'
+import { Loading } from 'element-ui'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -38,8 +39,24 @@ Vue.use(ElementUI)
  * axios 前后拦截器
  */
 // 请求拦截器
+let loading
+let showLoading
+let needLoadingRequestCount = 0
 axios.interceptors.request.use(
     config => {
+
+        // 显示载入动画
+        config.dontShowLoading === true ? showLoading = false : showLoading = true;
+        if (showLoading) {
+            if (needLoadingRequestCount === 0) {
+                loading = Loading.service({
+                    lock: true,
+                    background: 'rgba(239, 239, 239, 0.5)'
+                })
+            }
+            needLoadingRequestCount++
+        }
+
         // 如果是 refresh token 请求, 则使用 refresh_token 作为 auth 头
         if (config.url == '/api/v0/admin/refresh-token') {
             const refreshToken = localStorage.getItem('refresh_token');
@@ -62,9 +79,30 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
+        // 隐藏载入动画
+        needLoadingRequestCount--
+        if (needLoadingRequestCount === 0) {
+            if (showLoading) loading.close();
+        }
+
+
+        if (response.status === 201) {
+            app.$message({
+                message: '写入成功',
+                type: 'success'
+            });
+        }
+        if (response.status === 204) {
+            app.$message({
+                message: '删除成功',
+                type: 'success'
+            });
+        }
+
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
-        if (response.status === 200) {
+        let code = response.status.toString();
+        if (code.charAt(0) == '2') {
             return Promise.resolve(response);
         } else {
             return Promise.reject(response);
@@ -75,6 +113,11 @@ axios.interceptors.response.use(
     // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
     // 下面列举几个常见的操作，其他需求可自行扩展
     error => {
+        needLoadingRequestCount--
+        if (needLoadingRequestCount === 0) {
+            if (showLoading) loading.close();
+        }
+
         if (error.response.status) {
             switch (error.response.status) {
 
@@ -123,7 +166,20 @@ axios.interceptors.response.use(
                     break;
 
                 case 422:
-                    let htmlMessage = ''
+                    var htmlMessage = ''
+                    Object.keys(error.response.data.errors).forEach((index) => {
+                        htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>'
+                    })
+                    app.$message({
+                        dangerouslyUseHTMLString: true,
+                        type: 'error',
+                        message: '<ul>' + htmlMessage + '</ul>',
+                    })
+                    break;
+
+                // Too Many Requests
+                case 429:
+                    var htmlMessage = ''
                     Object.keys(error.response.data.errors).forEach((index) => {
                         htmlMessage += '<li style="margin: 5px 0">' + error.response.data.errors[index] + '</li>'
                     })
@@ -147,6 +203,16 @@ axios.interceptors.response.use(
         }
     }
 );
+
+// title meta 修改成路由定义的 title
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    } else {
+        document.title = '后台';
+    }
+    next()
+});
 
 const app = new Vue({
     el: '#app',

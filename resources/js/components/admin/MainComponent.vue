@@ -1,48 +1,54 @@
 <template>
     <el-container class="full-container">
 
-        <el-aside :width="isCollapse ? '64px' : '220px'">
+        <el-aside :width="isCollapse ? '65px' : '220px'">
             <el-menu
-                :default-openeds="[]"
                 :collapse="isCollapse"
                 :collapse-transition="false"
+                router
+                :default-active="$route.path"
+                unique-opened
                 >
 
-                <el-submenu index="1">
+                <el-menu-item index="/index">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">控制台</span>
+                </el-menu-item>
+
+                <el-submenu index="4">
                     <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span slot="title">导航一</span>
+                        <i class="el-icon-s-custom"></i>
+                        <span slot="title">管理员</span>
                     </template>
                     <el-menu-item-group>
-                        <span slot="title">分组一</span>
-                        <el-menu-item index="1-1">选项1</el-menu-item>
-                        <el-menu-item index="1-2">选项2</el-menu-item>
+                        <el-menu-item index="/admins">列表</el-menu-item>
+                        <el-menu-item index="/admins/create">添加</el-menu-item>
                     </el-menu-item-group>
-                    <el-menu-item-group title="分组2">
-                        <el-menu-item index="1-3">选项3</el-menu-item>
-                    </el-menu-item-group>
-                    <el-submenu index="1-4">
-                        <span slot="title">选项4</span>
-                        <el-menu-item index="1-4-1">选项1</el-menu-item>
-                    </el-submenu>
                 </el-submenu>
 
-                <el-menu-item index="2">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">导航二</span>
-                </el-menu-item>
+                <el-submenu index="5">
+                    <template slot="title">
+                        <i class="el-icon-s-management"></i>
+                        <span slot="title">角色设置</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="/roles">列表</el-menu-item>
+                        <el-menu-item index="/roles/create">添加</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
 
-                <el-menu-item index="3" disabled>
-                    <i class="el-icon-document"></i>
-                    <span slot="title">导航三</span>
-                </el-menu-item>
+                <el-submenu index="6">
+                    <template slot="title">
+                        <i class="el-icon-collection"></i>
+                        <span slot="title">权限设置</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="/permissions">列表</el-menu-item>
+                        <el-menu-item index="/permissions/create">添加</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
 
-                <el-menu-item index="4">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">导航四</span>
-                </el-menu-item>
-
-                <el-menu-item index="5" @click="changeCollapse">
+                <el-menu-item @click="changeCollapse" index="7">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>
@@ -51,15 +57,22 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
-                <el-dropdown>
-                    <i class="el-icon-setting" style="margin-right: 15px"></i>
-                    <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>查看</el-dropdown-item>
-                    <el-dropdown-item>新增</el-dropdown-item>
-                    <el-dropdown-item>删除</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+
+            <el-header class="page-header">
+                <el-row :gutter="20" type="flex" align="middle">
+                    <el-col :span="14">
+                        <el-page-header @back="goBack" :content="$route.meta.title"></el-page-header>
+                    </el-col>
+                    <el-col :span="10" style="text-align: right;">
+                        <el-dropdown @command="handleCommand">
+                            <i class="el-icon-setting" style="margin-right: 15px"> 设置</i>
+                            <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="editProfile">修改资料</el-dropdown-item>
+                            <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </el-col>
+                </el-row>
             </el-header>
 
             <el-main>
@@ -87,7 +100,22 @@
             changeCollapse() {
                 this.isCollapse = !this.isCollapse
                 localStorage.setItem('nav_is_collapse', this.isCollapse);
-            }
+            },
+            goBack() {
+                window.history.back();
+            },
+            handleCommand(command) {
+                eval('this.'+command+'()');
+            },
+            logout() {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                this.$router.push('/login')
+                this.$message('退出成功');
+            },
+            editProfile() {
+                this.$router.push('/edit-profile')
+            },
         }
     }
 </script>
@@ -104,5 +132,10 @@
     .el-menu {
         border-right: none;
     }
-
+    .page-header .el-row {
+        height: 60px;
+    }
+    .el-dropdown {
+        cursor: pointer;
+    }
 </style>
