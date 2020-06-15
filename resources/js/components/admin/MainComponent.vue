@@ -65,7 +65,10 @@
                     </el-col>
                     <el-col :span="10" style="text-align: right;">
                         <el-dropdown @command="handleCommand">
-                            <i class="el-icon-setting" style="margin-right: 15px"> 设置</i>
+                            <span>
+                                {{$store.getters.greeting}}
+                                <i class="el-icon-setting" style="margin-right: 15px"></i>
+                            </span>
                             <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="editProfile">修改资料</el-dropdown-item>
                             <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
@@ -94,6 +97,11 @@
             }
         },
         mounted() {
+            // 判断是否有 vuex user 来判断是否需要查询数据
+            if (this.$store.state.currentUser.name == '游客') {
+                this.fetchProfile();
+            }
+
             this.isCollapse = JSON.parse(localStorage.getItem('nav_is_collapse'))
         },
         methods: {
@@ -115,6 +123,15 @@
             },
             editProfile() {
                 this.$router.push('/edit-profile')
+            },
+            fetchProfile() {
+                axios.get(`/api/v0/admin/profile`)
+                    .then( (response) => {
+                        this.$store.commit('setCurrentUser', response.data.data)
+                    })
+                    .catch( (error) => {
+
+                    });
             },
         }
     }

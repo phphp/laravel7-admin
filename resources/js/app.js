@@ -3,6 +3,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router/index.js'
 import { Loading } from 'element-ui'
+import store from './store'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -217,5 +218,6 @@ router.beforeEach((to, from, next) => {
 const app = new Vue({
     el: '#app',
     router,
-    render: h => h(App)
+    store,
+    render: h => h(App),
 });

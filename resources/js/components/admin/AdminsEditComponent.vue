@@ -101,7 +101,7 @@
             fetchRoles() {
                 axios.get(`/api/v0/admin/roles`)
                     .then( (response) => {
-                        this.roles = response.data.data
+                        this.roles = response.data.data.data
                     })
                     .catch( (error) => {
 
