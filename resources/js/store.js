@@ -7,12 +7,26 @@ export default new Vuex.Store({
     state: {
         currentUser: {
             name: '游客'
-        } // 当前用户
+        }, // 当前用户
+        tabs: [], // 标签页列表
     },
     mutations: {
         setCurrentUser(state, userData) {
             state.currentUser = userData
-        }
+        },
+        pushTabs(state, data) {
+            let has = false;
+            state.tabs.forEach((value) => {
+                if (value['path'] == data['path']) return has = true;
+            });
+            if (!has) state.tabs.push(data);
+        },
+        setTabs(state, data) {
+            state.tabs = data;
+        },
+        removeTab(state, data) {
+            state.tabs.splice(state.tabs.indexOf(data), 1);
+        },
     },
     actions: {
 

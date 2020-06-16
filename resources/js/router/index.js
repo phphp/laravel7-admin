@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '../store'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
@@ -34,6 +35,7 @@ const router = new VueRouter({
 
                 {
                     path: '/permissions',
+                    // name: 'PermissionsComponent',
                     component: resolve => void (require(['../components/admin/PermissionsComponent.vue'], resolve)),
                     meta: { title: '权限列表' }
                 },
@@ -82,8 +84,20 @@ const router = new VueRouter({
 
 // 导航守卫
 router.beforeEach((to, from, next) => {
-    // next() 表示放行/跳转
-    if (to.path === '/login') return next()
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    } else {
+        document.title = '后台';
+    }
+
+    // 记录标签
+    store.commit('pushTabs', { path: to.fullPath, title: document.title })
+
+    // 跳转登录页, 清空 store 数据
+    if (to.path === '/login') {
+        store.commit('setTabs', [])
+        return next()
+    }
 
     const accessToken = localStorage.getItem('access_token')
     if (!accessToken) return next('/login')

@@ -48,7 +48,7 @@
                     </el-menu-item-group>
                 </el-submenu>
 
-                <el-menu-item @click="changeCollapse" index="7">
+                <el-menu-item @click="changeCollapse">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>
@@ -78,8 +78,24 @@
                 </el-row>
             </el-header>
 
+            <div class="tabs-container">
+                <el-tag
+                    class="tabs"
+                    :key="key"
+                    v-for="(tab, key) in $store.state.tabs"
+                    :type="$route.path == tab.path ? '' : 'info'"
+                    closable
+                    :disable-transitions="true"
+                    @click="handleClickTab(tab)"
+                    @close="handleCloseTab(tab)">
+                    {{tab.title}}
+                </el-tag>
+            </div>
+
             <el-main>
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
             </el-main>
         </el-container>
 
@@ -133,6 +149,26 @@
 
                     });
             },
+            handleClickTab(tab) {
+                this.$router.push({ path: tab.path });
+            },
+            handleCloseTab(tab) {
+                if (this.$store.state.tabs.length == 1 && this.$route.path == '/index') return;
+
+                let tabs = this.$store.state.tabs;
+                let closeNo = tabs.indexOf(tab);
+                tabs.splice(closeNo, 1);
+                let newTabs = tabs;
+                this.$store.commit('setTabs', newTabs)
+
+                if ( tab.path == this.$route.path ) {
+                    if (newTabs.length == 0)
+                        return this.$router.push({ path: '/index' })
+                    if (newTabs[closeNo+1] != undefined)
+                        return this.$router.push({ path: newTabs[closeNo+1].path })
+                    this.$router.push({ path: newTabs[closeNo-1].path })
+                }
+            }
         }
     }
 </script>
@@ -154,5 +190,13 @@
     }
     .el-dropdown {
         cursor: pointer;
+    }
+    .tabs-container {
+        border-bottom: 1px solid #EFEFEF;
+        padding: 0 15px;
+    }
+    .tabs {
+        border-bottom: none;
+        border-radius: 4px 4px 0 0;
     }
 </style>
