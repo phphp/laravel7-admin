@@ -90,6 +90,9 @@
             // 查询所有管理员
             this.fetchAdmins();
         },
+        activated() {
+            this.fetchAdmins()
+        },
         methods: {
             fetchAdmins(pageNum=1) {
                 this.currentPage = pageNum

@@ -78,6 +78,9 @@
         mounted() {
             this.fetchRoles();
         },
+        activated() {
+            this.fetchRoles()
+        },
         methods: {
             fetchRoles(pageNum=1) {
                 this.currentPage = pageNum

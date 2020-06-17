@@ -25,11 +25,26 @@ export default new Vuex.Store({
             state.tabs = data;
         },
         removeTab(state, data) {
-            state.tabs.splice(state.tabs.indexOf(data), 1);
+            let test = state.tabs
+            test.forEach((value, index) => {
+                if (value.path == data.path)
+                    state.tabs.splice(index, 1)
+            })
         },
     },
     actions: {
+        removeTab({ commit }, date) {
+            return new Promise((resolve, reject) => {
+                try {
+                    commit('removeTab', date);
+                    resolve(date);
+                } catch (error) {
+                    reject(error);
+                }
+            })
 
+
+        },
     },
     getters: {
         greeting(state) {

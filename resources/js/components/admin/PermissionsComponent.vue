@@ -78,6 +78,9 @@
         mounted() {
             this.fetchPermission();
         },
+        activated() {
+            this.fetchPermission()
+        },
         methods: {
             fetchPermission(pageNum=1) {
                 this.currentPage = pageNum
