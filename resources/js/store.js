@@ -16,8 +16,11 @@ export default new Vuex.Store({
         },
         pushTabs(state, data) {
             let has = false;
-            state.tabs.forEach((value) => {
-                if (value['path'] == data['path']) return has = true;
+            state.tabs.forEach((value, index) => {
+                if (value['title'] == data['title']) {
+                    state.tabs[index] = data;
+                    return has = true;
+                }
             });
             if (!has) state.tabs.push(data);
         },

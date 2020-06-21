@@ -37,10 +37,21 @@
 
                 },
                 roles: [],
+                currentId: 0
             }
         },
         mounted() {
+            this.currentId = this.$route.params.id;
             this.fetchPermission(this.$route.params.id)
+        },
+        watch: {
+            // 当路由地址发生改变, 重新获取数据
+            '$route' (to, from) {
+                if (to.meta.title == '修改权限' && this.$route.params.id != this.currentId) {
+                    this.currentId = this.$route.params.id;
+                    this.fetchPermission(to.params.id)
+                }
+            }
         },
         methods: {
             handleSubmit() {

@@ -76,11 +76,21 @@
 
                 },
                 roles: [],
+                currentId: 0
             }
         },
         mounted() {
+            this.currentId = this.$route.params.id;
             this.fetchRoles()
             this.fetchAdmin(this.$route.params.id)
+        },
+        watch: {
+            '$route' (to, from) {
+                if (to.meta.title == '修改管理员' && this.$route.params.id != this.currentId) {
+                    this.fetchRoles()
+                    this.fetchAdmin(to.params.id)
+                }
+            }
         },
         methods: {
             handleSubmit() {

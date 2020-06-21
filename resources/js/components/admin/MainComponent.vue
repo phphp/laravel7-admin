@@ -83,7 +83,7 @@
                     class="tabs"
                     :key="key"
                     v-for="(tab, key) in $store.state.tabs"
-                    :type="$route.path == tab.path ? '' : 'info'"
+                    :type="$route.meta.title == tab.title ? '' : 'info'"
                     closable
                     :disable-transitions="true"
                     @click="handleClickTab(tab)"
@@ -161,7 +161,7 @@
                 let newTabs = tabs;
                 this.$store.commit('setTabs', newTabs)
 
-                if ( tab.path == this.$route.path ) {
+                if ( tab.title == this.$route.meta.title ) {
                     if (newTabs.length == 0)
                         return this.$router.push({ path: '/index' })
                     if (newTabs[closeNo+1] != undefined)

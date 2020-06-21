@@ -70,34 +70,42 @@
         data() {
             return {
                 permissions: [],
-                total: 0, // 分页总数
+                total: null, // 分页总数, 使用 null 而不使用 0 避免载入时无法相应链接参数的变化
                 pageSize: 15, // 分页尺寸
                 currentPage: 1, // 当前页码
             }
         },
-        mounted() {
-            this.fetchPermission();
+        created() {
+            // 设置分页信息
+            if (this.$route.query.page !== undefined) this.currentPage = parseInt(this.$route.query.page);
+            if (this.$route.query.per_page !== undefined) this.pageSize = parseInt(this.$route.query.per_page);
         },
         activated() {
             this.fetchPermission()
         },
         methods: {
-            fetchPermission(pageNum=1) {
-                this.currentPage = pageNum
-                axios.get(`/api/v0/admin/permissions?page=${pageNum}&per_page=${this.pageSize}`)
+            fetchPermission() {
+                let query = {
+                    'page': this.currentPage,
+                    'per_page': this.pageSize
+                }
+                this.$router.push( { path: this.$route.path, query: query } ).catch(error=>{}) ;
+
+                axios.get(`/api/v0/admin/permissions?page=${this.currentPage}&per_page=${this.pageSize}`)
                     .then( (response) => {
                         this.permissions = response.data.data.data
                         this.total = response.data.data.total
                         this.pageSize = parseInt(response.data.data.per_page)
                     })
                     .catch( (error) => {
-
+                        console.log(error)
                     });
             },
 
             // 监听修改页码
             handleCurrentChange(pageNum) {
-                this.fetchPermission(pageNum);
+                this.currentPage = pageNum
+                this.fetchPermission();
             },
 
             // 监听修改分页尺寸
