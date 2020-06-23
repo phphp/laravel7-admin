@@ -46,11 +46,22 @@
 
                 },
                 permissions: [],
+                currentId: 0
             }
         },
         mounted() {
+            this.currentId = this.$route.params.id;
             this.fetchPermissions();
             this.fetchRole(this.$route.params.id);
+        },
+        watch: {
+            '$route' (to, from) {
+                if (to.meta.title == '修改角色' && this.$route.params.id != this.currentId) {
+                    this.currentId = this.$route.params.id;
+                    this.fetchPermissions()
+                    this.fetchRole(to.params.id)
+                }
+            }
         },
         methods: {
             handleSubmit() {

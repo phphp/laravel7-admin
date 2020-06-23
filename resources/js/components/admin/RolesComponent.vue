@@ -70,31 +70,48 @@
         data() {
             return {
                 roles: [],
-                total: 0, // 分页总数
+                total: null, // 分页总数, 使用 null 而不使用 0 避免载入时无法相应链接参数的变化
                 pageSize: 15, // 分页尺寸
                 currentPage: 1, // 当前页码
+                isCreated: true, // 判断是否是第一次创建
             }
         },
-        mounted() {
-            this.fetchRoles();
+        created() {
+            // 设置分页信息
+            if (this.$route.query.page !== undefined) this.currentPage = parseInt(this.$route.query.page);
+            if (this.$route.query.per_page !== undefined) this.pageSize = parseInt(this.$route.query.per_page);
+            this.fetchRoles()
+        },
+        activated() {
+            if (!this.isCreated && this.$store.state.activatedRequest) {
+                this.fetchRoles()
+            } else {
+                this.isCreated = false
+            }
         },
         methods: {
-            fetchRoles(pageNum=1) {
-                this.currentPage = pageNum
-                axios.get(`/api/v0/admin/roles?page=${pageNum}&per_page=${this.pageSize}`)
+            fetchRoles() {
+                let query = {
+                    'page': this.currentPage,
+                    'per_page': this.pageSize
+                }
+                this.$router.push( { path: this.$route.path, query: query } ).catch(error=>{}) ;
+
+                axios.get(`/api/v0/admin/roles?page=${this.currentPage}&per_page=${this.pageSize}`)
                     .then( (response) => {
                         this.roles = response.data.data.data
                         this.total = response.data.data.total
                         this.pageSize = parseInt(response.data.data.per_page)
                     })
                     .catch( (error) => {
-
+                        console.log(error)
                     });
             },
 
             // 监听修改页码
             handleCurrentChange(pageNum) {
-                this.fetchRoles(pageNum);
+                this.currentPage = pageNum
+                this.fetchRoles();
             },
 
             // 监听修改分页尺寸

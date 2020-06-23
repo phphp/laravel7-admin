@@ -76,11 +76,22 @@
 
                 },
                 roles: [],
+                currentId: 0
             }
         },
         mounted() {
+            this.currentId = this.$route.params.id;
             this.fetchRoles()
             this.fetchAdmin(this.$route.params.id)
+        },
+        watch: {
+            '$route' (to, from) {
+                if (to.meta.title == '修改管理员' && this.$route.params.id != this.currentId) {
+                    this.currentId = this.$route.params.id;
+                    this.fetchRoles()
+                    this.fetchAdmin(to.params.id)
+                }
+            }
         },
         methods: {
             handleSubmit() {
@@ -101,7 +112,7 @@
             fetchRoles() {
                 axios.get(`/api/v0/admin/roles`)
                     .then( (response) => {
-                        this.roles = response.data.data
+                        this.roles = response.data.data.data
                     })
                     .catch( (error) => {
 

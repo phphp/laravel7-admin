@@ -40,11 +40,15 @@
         },
         methods: {
             handleSubmit() {
-                this.$refs.form.validate(async valid => {
+                this.$refs.form.validate(valid => {
                     if (valid) {
                         axios.post(`/api/v0/admin/permissions`, this.form)
                             .then( (response) => {
-                                this.$router.push('/permissions')
+                                this.form = {}
+                                this.$store.dispatch('removeTab', { path: this.$router.history.current.fullPath, title: document.title })
+                                .then((resolve)=>{
+                                    this.$router.push('/permissions')
+                                });
                             })
                             .catch( (error) => {
 

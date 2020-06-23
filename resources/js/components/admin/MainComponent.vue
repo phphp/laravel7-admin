@@ -48,7 +48,7 @@
                     </el-menu-item-group>
                 </el-submenu>
 
-                <el-menu-item @click="changeCollapse" index="7">
+                <el-menu-item @click="changeCollapse">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>
@@ -65,7 +65,10 @@
                     </el-col>
                     <el-col :span="10" style="text-align: right;">
                         <el-dropdown @command="handleCommand">
-                            <i class="el-icon-setting" style="margin-right: 15px"> 设置</i>
+                            <span>
+                                {{$store.getters.greeting}}
+                                <i class="el-icon-setting" style="margin-right: 15px"></i>
+                            </span>
                             <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="editProfile">修改资料</el-dropdown-item>
                             <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
@@ -75,8 +78,24 @@
                 </el-row>
             </el-header>
 
+            <div class="tabs-container">
+                <el-tag
+                    class="tabs"
+                    :key="key"
+                    v-for="(tab, key) in $store.state.tabs"
+                    :type="$route.meta.title == tab.title ? '' : 'info'"
+                    closable
+                    :disable-transitions="true"
+                    @click="handleClickTab(tab)"
+                    @close="handleCloseTab(tab)">
+                    {{tab.title}}
+                </el-tag>
+            </div>
+
             <el-main>
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
             </el-main>
         </el-container>
 
@@ -94,6 +113,12 @@
             }
         },
         mounted() {
+            // 判断是否有 vuex user 来判断是否需要查询数据
+            if (this.$store.state.currentUser.name == '游客') {
+                this.fetchProfile();
+            }
+
+            this.$store.commit('setActivatedRequest', localStorage.getItem('activated_request'))
             this.isCollapse = JSON.parse(localStorage.getItem('nav_is_collapse'))
         },
         methods: {
@@ -116,6 +141,35 @@
             editProfile() {
                 this.$router.push('/edit-profile')
             },
+            fetchProfile() {
+                axios.get(`/api/v0/admin/profile`)
+                    .then( (response) => {
+                        this.$store.commit('setCurrentUser', response.data.data)
+                    })
+                    .catch( (error) => {
+
+                    });
+            },
+            handleClickTab(tab) {
+                this.$router.push({ path: tab.path });
+            },
+            handleCloseTab(tab) {
+                if (this.$store.state.tabs.length == 1 && this.$route.path == '/index') return;
+
+                let tabs = this.$store.state.tabs;
+                let closeNo = tabs.indexOf(tab);
+                tabs.splice(closeNo, 1);
+                let newTabs = tabs;
+                this.$store.commit('setTabs', newTabs)
+
+                if ( tab.title == this.$route.meta.title ) {
+                    if (newTabs.length == 0)
+                        return this.$router.push({ path: '/index' })
+                    if (newTabs[closeNo+1] != undefined)
+                        return this.$router.push({ path: newTabs[closeNo+1].path })
+                    this.$router.push({ path: newTabs[closeNo-1].path })
+                }
+            }
         }
     }
 </script>
@@ -137,5 +191,13 @@
     }
     .el-dropdown {
         cursor: pointer;
+    }
+    .tabs-container {
+        border-bottom: 1px solid #EFEFEF;
+        padding: 0 15px;
+    }
+    .tabs {
+        border-bottom: none;
+        border-radius: 4px 4px 0 0;
     }
 </style>

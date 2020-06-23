@@ -3,6 +3,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router/index.js'
 import { Loading } from 'element-ui'
+import store from './store'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -204,18 +205,9 @@ axios.interceptors.response.use(
     }
 );
 
-// title meta 修改成路由定义的 title
-router.beforeEach((to, from, next) => {
-    if (to.meta.title) {
-        document.title = to.meta.title;
-    } else {
-        document.title = '后台';
-    }
-    next()
-});
-
 const app = new Vue({
     el: '#app',
     router,
-    render: h => h(App)
+    store,
+    render: h => h(App),
 });
