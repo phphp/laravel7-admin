@@ -87,6 +87,7 @@
         watch: {
             '$route' (to, from) {
                 if (to.meta.title == '修改管理员' && this.$route.params.id != this.currentId) {
+                    this.currentId = this.$route.params.id;
                     this.fetchRoles()
                     this.fetchAdmin(to.params.id)
                 }

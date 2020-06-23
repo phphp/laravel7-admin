@@ -9,6 +9,7 @@ export default new Vuex.Store({
             name: '游客'
         }, // 当前用户
         tabs: [], // 标签页列表
+        activatedRequest: true, // 是否需要在激活时候重新发送请求
     },
     mutations: {
         setCurrentUser(state, userData) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
                     state.tabs.splice(index, 1)
             })
         },
+        setActivatedRequest(state, data) {
+            state.activatedRequest = data
+        }
     },
     actions: {
         removeTab({ commit }, date) {

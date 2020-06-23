@@ -118,6 +118,7 @@
                 this.fetchProfile();
             }
 
+            this.$store.commit('setActivatedRequest', localStorage.getItem('activated_request'))
             this.isCollapse = JSON.parse(localStorage.getItem('nav_is_collapse'))
         },
         methods: {

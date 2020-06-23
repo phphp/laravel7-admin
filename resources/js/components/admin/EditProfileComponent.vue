@@ -20,6 +20,16 @@
             </el-form-item>
         </el-form>
 
+        <el-divider content-position="center">使用设置</el-divider>
+
+        <el-form label-width="150px" label-position="right">
+            <el-form-item label="切换标签时刷新数据">
+                <el-switch v-model="activatedRequest"></el-switch>
+            </el-form-item>
+
+        </el-form>
+
+
     </div>
 </template>
 
@@ -61,10 +71,17 @@
                         { min: 6, max: 64, message: '长度在 6 到 64 个字符', trigger: 'blur' },
                     ],
                 },
+                activatedRequest: true,
             }
         },
         mounted() {
             this.fetchProfile()
+        },
+        watch: {
+            activatedRequest() {
+                this.$store.commit('setActivatedRequest', this.activatedRequest)
+                localStorage.setItem('activated_request', this.activatedRequest);
+            }
         },
         methods: {
             handleSubmit() {

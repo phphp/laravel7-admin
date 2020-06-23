@@ -84,15 +84,21 @@
                 total: null, // 分页总数, 使用 null 而不使用 0 避免载入时无法相应链接参数的变化
                 pageSize: 15, // 分页尺寸
                 currentPage: 1, // 当前页码
+                isCreated: true, // 判断是否是第一次创建
             }
         },
         created() {
             // 设置分页信息
             if (this.$route.query.page !== undefined) this.currentPage = parseInt(this.$route.query.page);
             if (this.$route.query.per_page !== undefined) this.pageSize = parseInt(this.$route.query.per_page);
+            this.fetchAdmins()
         },
         activated() {
-            this.fetchAdmins()
+            if (!this.isCreated && this.$store.state.activatedRequest) {
+                this.fetchAdmins()
+            } else {
+                this.isCreated = false
+            }
         },
         methods: {
             fetchAdmins() {
