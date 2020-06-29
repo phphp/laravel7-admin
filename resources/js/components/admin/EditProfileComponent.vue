@@ -24,9 +24,10 @@
 
         <el-form label-width="150px" label-position="right">
             <el-form-item label="切换标签时刷新数据">
-                <el-switch v-model="activatedRequest"></el-switch>
+                <el-tooltip class="item" effect="dark" content="即时显示最新的数据, 但每次载入都会查询最新的数据, 适合于数据竞争激烈的环境" placement="left">
+                    <el-switch v-model="activatedRequest"></el-switch>
+                </el-tooltip>
             </el-form-item>
-
         </el-form>
 
 
