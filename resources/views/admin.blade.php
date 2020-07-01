@@ -18,6 +18,8 @@
                 padding: 0;
             }
         </style>
+        <link rel="stylesheet" type="text/css" href="{{ mix('css/admin.css', 'admin') }}">
+
     </head>
     <body>
 
@@ -26,6 +28,6 @@
         </div>
 
         {{-- 前端 --}}
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/admin.js', 'admin') }}"></script>
     </body>
 </html>

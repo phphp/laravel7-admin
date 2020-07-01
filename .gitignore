@@ -13,3 +13,6 @@ yarn-error.log
 
 /public/js/app.js
 /public/*.js
+/public/css/app.css
+
+/public/admin
