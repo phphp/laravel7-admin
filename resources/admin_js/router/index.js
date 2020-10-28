@@ -7,6 +7,11 @@ const router = new VueRouter({
     saveScrollPosition: true,
     routes: [
         {
+            name: "login",
+            path: '/login',
+            component: resolve => void (require(['../components/LoginComponent.vue'], resolve)),
+        },
+        {
             name: "index",
             path: '/',
             component: resolve => void (require(['../components/admin/MainComponent.vue'], resolve)),
@@ -71,14 +76,14 @@ const router = new VueRouter({
                     component: resolve => void (require(['../components/admin/EditProfileComponent.vue'], resolve)),
                     meta: { title: '修改资料' }
                 },
+                {
+                    path: '*',
+                    component: resolve => void (require(['../components/admin/NotFoundComponent.vue'], resolve)),
+                    meta: { title: '404' }
+                },
             ]
         },
 
-        {
-            name: "login",
-            path: '/login',
-            component: resolve => void (require(['../components/LoginComponent.vue'], resolve)),
-        },
     ]
 })
 

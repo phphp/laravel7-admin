@@ -11,13 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
-// .sass('resources/sass/app.sass', 'public/css');
+mix.setPublicPath('public/admin')
+   .setResourceRoot('/admin/')
+
+mix.js('resources/admin_js/app.js', 'js/admin.js')
+   .sass('resources/admin_sass/app.scss', 'css/admin.css');
 
 mix.webpackConfig({
    output: {
-      publicPath: '/js/',
-      chunkFilename: 'chunks/[name].js',
+      publicPath: '/admin/',
+      chunkFilename: 'js/chunks/[name].js',
    }
 });

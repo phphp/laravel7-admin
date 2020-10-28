@@ -48,7 +48,7 @@
                     </el-menu-item-group>
                 </el-submenu>
 
-                <el-menu-item @click="changeCollapse">
+                <el-menu-item @click="changeCollapse" index="#">
                     <i v-if="!isCollapse" class="el-icon-s-fold"></i>
                     <i v-if="isCollapse" class="el-icon-s-unfold"></i>
                 </el-menu-item>

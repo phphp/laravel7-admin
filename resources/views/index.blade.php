@@ -10,15 +10,8 @@
 
         <!-- Styles -->
         <style>
-            html,
-            body,
-            #app {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
         </style>
-        <link rel="stylesheet" type="text/css" href="{{ mix('css/admin.css', 'admin') }}">
+        <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
 
     </head>
     <body>
@@ -28,6 +21,6 @@
         </div>
 
         {{-- 前端 --}}
-        <script src="{{ mix('js/admin.js', 'admin') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>

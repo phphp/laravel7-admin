@@ -44,8 +44,8 @@
                 },
             }
         },
-        mounted() {
-
+        created() {
+            if (localStorage.getItem('access_token')) this.$router.push('/index');
         },
         methods: {
             login(formName) {
